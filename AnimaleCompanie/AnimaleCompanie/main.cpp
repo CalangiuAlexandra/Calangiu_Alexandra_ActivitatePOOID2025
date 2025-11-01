@@ -5,12 +5,12 @@ using namespace std;
 
 class Caine {
 public:
-    string rasa;           // atribut normal
-    int varsta;            // atribut normal
-    double greutate;       // atribut normal
-    static int nrCaini;    // atribut static
-    const string tip;      // atribut constant
-    char* sunet;           // pointer alocat dinamic (in heap)
+    string rasa;
+    int varsta;
+    double greutate;
+    static int nrCaini;
+    const string tip;
+    char* sunet;
 
     Caine(string r, int v, double g)
         : rasa(r), varsta(v), greutate(g), tip("Caine") {
