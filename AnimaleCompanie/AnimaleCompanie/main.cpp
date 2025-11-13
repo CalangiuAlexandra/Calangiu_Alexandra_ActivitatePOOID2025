@@ -39,9 +39,22 @@ public:
         strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
     }
 
-    void latra() const {
-        cout << sunet << endl;
+    string getRasa() const { return rasa; }
+    int getVarsta() const { return varsta; }
+    double getGreutate() const { return greutate; }
+    string getTip() const { return tip; }
+    const char* getSunet() const { return sunet; }
+
+    void setRasa(string r) { rasa = r; }
+    void setVarsta(int v) { varsta = v; }
+    void setGreutate(double g) { greutate = g; }
+    void setSunet(const char* s) {
+        delete[] sunet;
+        sunet = new char[strlen(s) + 1];
+        strcpy_s(sunet, strlen(s) + 1, s);
     }
+
+    void latra() const { cout << sunet << endl; }
 
     void afiseaza() const {
         cout << tip << " de rasa " << rasa
@@ -96,6 +109,21 @@ public:
         nrPisici++;
         sunet = new char[strlen(other.sunet) + 1];
         strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+    }
+
+    string getNume() const { return nume; }
+    string getCuloare() const { return culoare; }
+    bool getEsteSterilizata() const { return esteSterilizata; }
+    string getTip() const { return tip; }
+    const char* getSunet() const { return sunet; }
+
+    void setNume(string n) { nume = n; }
+    void setCuloare(string c) { culoare = c; }
+    void setEsteSterilizata(bool s) { esteSterilizata = s; }
+    void setSunet(const char* s) {
+        delete[] sunet;
+        sunet = new char[strlen(s) + 1];
+        strcpy_s(sunet, strlen(s) + 1, s);
     }
 
     void toarce() const {
@@ -157,9 +185,22 @@ public:
         strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
     }
 
-    void canta() const {
-        cout << sunet << endl;
+    string getSpecie() const { return specie; }
+    string getCuloare() const { return culoare; }
+    bool getVorbeste() const { return vorbeste; }
+    string getTip() const { return tip; }
+    const char* getSunet() const { return sunet; }
+
+    void setSpecie(string s) { specie = s; }
+    void setCuloare(string c) { culoare = c; }
+    void setVorbeste(bool v) { vorbeste = v; }
+    void setSunet(const char* s) {
+        delete[] sunet;
+        sunet = new char[strlen(s) + 1];
+        strcpy_s(sunet, strlen(s) + 1, s);
     }
+
+    void canta() const { cout << sunet << endl; }
 
     void afiseaza() const {
         cout << tip << " de specie " << specie
@@ -185,6 +226,10 @@ int main() {
     Caine c3("Labrador", 3, 25.5);
     Caine c4 = c3;
 
+    c1.setRasa("Bulldog");
+    c1.setGreutate(14.7);
+    c1.afiseaza();
+
     c1.afiseaza(); c1.latra();
     c2.afiseaza(); c2.latra();
     c3.afiseaza(); c3.latra();
@@ -195,6 +240,10 @@ int main() {
     Pisica p3("Luna", "gri", true);
     Pisica p4 = p2;
 
+    p1.setNume("Luna");
+    p1.setCuloare("gri");
+    p1.afiseaza();
+
     p1.afiseaza(); p1.toarce();
     p2.afiseaza(); p2.toarce();
     p3.afiseaza(); p3.toarce();
@@ -204,6 +253,10 @@ int main() {
     Papagal pa2("Cacadu", "alb");
     Papagal pa3("Ara", "albastru", true);
     Papagal pa4 = pa3;
+
+    pa1.setSpecie("Cacadu");
+    pa1.setCuloare("alb");
+    pa1.afiseaza();
 
     pa1.afiseaza(); pa1.canta();
     pa2.afiseaza(); pa2.canta();
