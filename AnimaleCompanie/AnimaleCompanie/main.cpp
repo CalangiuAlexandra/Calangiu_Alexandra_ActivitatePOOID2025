@@ -4,7 +4,7 @@
 using namespace std;
 
 class Caine {
-public:
+private:
     string rasa;
     int varsta;
     double greutate;
@@ -12,6 +12,7 @@ public:
     const string tip;
     char* sunet;
 
+public:
     Caine() : rasa("Necunoscuta"), varsta(0), greutate(0.0), tip("Caine") {
         nrCaini++;
         sunet = new char[strlen("Ham!") + 1];
@@ -31,17 +32,23 @@ public:
         strcpy_s(sunet, strlen("Ham! Ham!") + 1, "Ham! Ham!");
     }
 
-    void latra() {
+    Caine(const Caine& other) : rasa(other.rasa), varsta(other.varsta),
+        greutate(other.greutate), tip("Caine") {
+        nrCaini++;
+        sunet = new char[strlen(other.sunet) + 1];
+        strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+    }
+
+    void latra() const {
         cout << sunet << endl;
     }
 
-    void afiseaza() {
+    void afiseaza() const {
         cout << tip << " de rasa " << rasa
             << ", varsta: " << varsta
             << " ani, greutate: " << greutate << " kg." << endl;
     }
 
-    // --- Functie statica: calculeaza varsta medie (exemplu generic)
     static double calculeazaVarstaMedie(int totalVarsta) {
         if (nrCaini == 0) return 0;
         return (double)totalVarsta / nrCaini;
@@ -55,7 +62,7 @@ int Caine::nrCaini = 0;
 
 
 class Pisica {
-public:
+private:
     string nume;
     string culoare;
     bool esteSterilizata;
@@ -63,6 +70,7 @@ public:
     const string tip;
     char* sunet;
 
+public:
     Pisica() : nume("Anonima"), culoare("necunoscuta"), esteSterilizata(false), tip("Pisica") {
         nrPisici++;
         sunet = new char[strlen("Miau!") + 1];
@@ -82,17 +90,24 @@ public:
         strcpy_s(sunet, strlen("Miau!") + 1, "Miau!");
     }
 
-    void toarce() {
+    Pisica(const Pisica& other)
+        : nume(other.nume), culoare(other.culoare),
+        esteSterilizata(other.esteSterilizata), tip("Pisica") {
+        nrPisici++;
+        sunet = new char[strlen(other.sunet) + 1];
+        strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+    }
+
+    void toarce() const {
         cout << nume << " toarce linistit. " << sunet << endl;
     }
 
-    void afiseaza() {
+    void afiseaza() const {
         cout << tip << " " << nume
             << ", culoare: " << culoare
             << ", " << (esteSterilizata ? "sterilizata" : "nesterilizata") << "." << endl;
     }
 
-    // --- Functie statica: procentul pisicilor sterilizate (exemplu)
     static double procentSterilizate(int nrSterilizate) {
         if (nrPisici == 0) return 0;
         return (double)nrSterilizate / nrPisici * 100.0;
@@ -106,7 +121,7 @@ int Pisica::nrPisici = 0;
 
 
 class Papagal {
-public:
+private:
     string specie;
     string culoare;
     bool vorbeste;
@@ -114,6 +129,7 @@ public:
     const string tip;
     char* sunet;
 
+public:
     Papagal() : specie("Necunoscuta"), culoare("necunoscuta"), vorbeste(false), tip("Papagal") {
         nrPapagali++;
         sunet = new char[strlen("Cip!") + 1];
@@ -133,17 +149,24 @@ public:
         strcpy_s(sunet, strlen("Cip-cirip!") + 1, "Cip-cirip!");
     }
 
-    void canta() {
+    Papagal(const Papagal& other)
+        : specie(other.specie), culoare(other.culoare),
+        vorbeste(other.vorbeste), tip("Papagal") {
+        nrPapagali++;
+        sunet = new char[strlen(other.sunet) + 1];
+        strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+    }
+
+    void canta() const {
         cout << sunet << endl;
     }
 
-    void afiseaza() {
+    void afiseaza() const {
         cout << tip << " de specie " << specie
             << ", culoare: " << culoare
             << ", " << (vorbeste ? "vorbeste" : "nu vorbeste") << "." << endl;
     }
 
-    // --- Functie statica: procentul papagalilor care vorbesc
     static double procentVorbitori(int nrVorbitori) {
         if (nrPapagali == 0) return 0;
         return (double)nrVorbitori / nrPapagali * 100.0;
@@ -156,39 +179,40 @@ public:
 int Papagal::nrPapagali = 0;
 
 
-
 int main() {
     Caine c1;
     Caine c2("Beagle", 4);
     Caine c3("Labrador", 3, 25.5);
+    Caine c4 = c3;
 
     c1.afiseaza(); c1.latra();
     c2.afiseaza(); c2.latra();
     c3.afiseaza(); c3.latra();
+    c4.afiseaza(); c4.latra();
 
     Pisica p1;
     Pisica p2("Miti", "neagra");
     Pisica p3("Luna", "gri", true);
+    Pisica p4 = p2;
 
     p1.afiseaza(); p1.toarce();
     p2.afiseaza(); p2.toarce();
     p3.afiseaza(); p3.toarce();
+    p4.afiseaza(); p4.toarce();
 
     Papagal pa1;
     Papagal pa2("Cacadu", "alb");
     Papagal pa3("Ara", "albastru", true);
+    Papagal pa4 = pa3;
 
     pa1.afiseaza(); pa1.canta();
     pa2.afiseaza(); pa2.canta();
     pa3.afiseaza(); pa3.canta();
+    pa4.afiseaza(); pa4.canta();
 
-    cout << "\nNumar total de caini: " << Caine::nrCaini << endl;
-    cout << "Numar total de pisici: " << Pisica::nrPisici << endl;
-    cout << "Numar total de papagali: " << Papagal::nrPapagali << endl;
-
-    cout << "\nVarsta medie a cainilor (exemplu): " << Caine::calculeazaVarstaMedie(7) << " ani\n";
-    cout << "Procent pisici sterilizate (exemplu): " << Pisica::procentSterilizate(1) << "%\n";
-    cout << "Procent papagali vorbitori (exemplu): " << Papagal::procentVorbitori(1) << "%\n";
+    cout << "\nNumar total de caini: " << Caine::calculeazaVarstaMedie(7) << endl;
+    cout << "Numar total de pisici: " << Pisica::procentSterilizate(1) << "%\n";
+    cout << "Numar total de papagali: " << Papagal::procentVorbitori(1) << "%\n";
 
     return 0;
 }
