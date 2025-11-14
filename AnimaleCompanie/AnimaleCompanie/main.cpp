@@ -67,6 +67,8 @@ public:
         return (double)totalVarsta / nrCaini;
     }
 
+    static int getNrCaini() { return nrCaini; }
+
     ~Caine() {
         delete[] sunet;
     }
@@ -141,6 +143,8 @@ public:
         return (double)nrSterilizate / nrPisici * 100.0;
     }
 
+    static int getNrPisici() { return nrPisici; }
+
     ~Pisica() {
         delete[] sunet;
     }
@@ -213,6 +217,8 @@ public:
         return (double)nrVorbitori / nrPapagali * 100.0;
     }
 
+    static int getNrPapagali() { return nrPapagali; }
+
     ~Papagal() {
         delete[] sunet;
     }
@@ -262,6 +268,10 @@ int main() {
     pa2.afiseaza(); pa2.canta();
     pa3.afiseaza(); pa3.canta();
     pa4.afiseaza(); pa4.canta();
+
+    cout << "Total caini: " << Caine::getNrCaini() << endl;
+    cout << "Total pisici: " << Pisica::getNrPisici() << endl;
+    cout << "Total papagali: " << Papagal::getNrPapagali() << endl;
 
     cout << "\nNumar total de caini: " << Caine::calculeazaVarstaMedie(7) << endl;
     cout << "Numar total de pisici: " << Pisica::procentSterilizate(1) << "%\n";
