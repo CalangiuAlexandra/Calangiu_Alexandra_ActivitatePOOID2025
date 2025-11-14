@@ -3,6 +3,9 @@
 #include <cstring>
 using namespace std;
 
+
+class Pisica;
+
 class Caine {
 private:
     string rasa;
@@ -72,6 +75,8 @@ public:
     ~Caine() {
         delete[] sunet;
     }
+
+    friend void comparaCainePisica(const Caine& c, const Pisica& p);
 };
 int Caine::nrCaini = 0;
 
@@ -148,6 +153,8 @@ public:
     ~Pisica() {
         delete[] sunet;
     }
+
+    friend void comparaCainePisica(const Caine& c, const Pisica& p);
 };
 int Pisica::nrPisici = 0;
 
@@ -222,8 +229,30 @@ public:
     ~Papagal() {
         delete[] sunet;
     }
+
+    friend void seteazaSunetPapagal(Papagal& pa);
 };
 int Papagal::nrPapagali = 0;
+
+void comparaCainePisica(const Caine& c, const Pisica& p) {
+    cout << "Caine rasa: " << c.rasa << ", varsta: " << c.varsta << endl;
+    cout << "Pisica nume: " << p.nume << ", sterilizata: " << p.esteSterilizata << endl;
+}
+
+
+void seteazaSunetPapagal(Papagal& pa) {
+    if (pa.culoare == "rosu" || pa.culoare == "galben") {
+        delete[] pa.sunet;
+        pa.sunet = new char[strlen("CIP-CIRIP!!!") + 1];
+        strcpy_s(pa.sunet, strlen("CIP-CIRIP!!!") + 1, "CIP-CIRIP!!!");
+    }
+    else {
+        delete[] pa.sunet;
+        pa.sunet = new char[strlen("cirip...") + 1];
+        strcpy_s(pa.sunet, strlen("cirip...") + 1, "cirip...");
+    }
+}
+
 
 
 int main() {
@@ -276,6 +305,12 @@ int main() {
     cout << "\nNumar total de caini: " << Caine::calculeazaVarstaMedie(7) << endl;
     cout << "Numar total de pisici: " << Pisica::procentSterilizate(1) << "%\n";
     cout << "Numar total de papagali: " << Papagal::procentVorbitori(1) << "%\n";
+
+    comparaCainePisica(c3, p3);
+
+    seteazaSunetPapagal(pa1);
+    cout << "Sunet papagal nou: ";
+    pa1.canta();
 
     return 0;
 }
