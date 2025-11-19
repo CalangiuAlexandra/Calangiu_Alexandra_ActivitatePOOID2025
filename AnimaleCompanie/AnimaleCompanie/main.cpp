@@ -35,13 +35,45 @@ public:
         strcpy_s(sunet, strlen("Ham! Ham!") + 1, "Ham! Ham!");
     }
 
-    Caine(const Caine& other) : rasa(other.rasa), varsta(other.varsta),
-        greutate(other.greutate), tip("Caine") {
+    Caine(const Caine& other)
+        : rasa(other.rasa), varsta(other.varsta), greutate(other.greutate), tip("Caine") {
         nrCaini++;
         sunet = new char[strlen(other.sunet) + 1];
         strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
     }
 
+    Caine& operator=(const Caine& other) {
+        if (this != &other) {
+            rasa = other.rasa;
+            varsta = other.varsta;
+            greutate = other.greutate;
+
+            delete[] sunet;
+            sunet = new char[strlen(other.sunet) + 1];
+            strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+        }
+        return *this;
+    }
+
+    bool operator==(const Caine& other) const {
+        return rasa == other.rasa &&
+            varsta == other.varsta &&
+            fabs(greutate - other.greutate) < 0.0001 &&
+            strcmp(sunet, other.sunet) == 0;
+    }
+
+    bool operator<(const Caine& other) const {
+        return varsta < other.varsta;
+    }
+
+    friend ostream& operator<<(ostream& out, const Caine& c) {
+        out << "Caine (" << c.rasa << "), varsta: "
+            << c.varsta << " ani, greutate: " << c.greutate
+            << " kg, sunet: " << c.sunet;
+        return out;
+    }
+
+    // Getteri, setteri, alte metode
     string getRasa() const { return rasa; }
     int getVarsta() const { return varsta; }
     double getGreutate() const { return greutate; }
@@ -51,6 +83,7 @@ public:
     void setRasa(string r) { rasa = r; }
     void setVarsta(int v) { varsta = v; }
     void setGreutate(double g) { greutate = g; }
+
     void setSunet(const char* s) {
         delete[] sunet;
         sunet = new char[strlen(s) + 1];
@@ -79,6 +112,7 @@ public:
     friend void comparaCainePisica(const Caine& c, const Pisica& p);
 };
 int Caine::nrCaini = 0;
+
 
 
 class Pisica {
@@ -260,6 +294,26 @@ int main() {
     Caine c2("Beagle", 4);
     Caine c3("Labrador", 3, 25.5);
     Caine c4 = c3;
+
+    c1 = c2;
+    cout << "\nDupa operator= : c1 devine c2\n";
+    cout << c1 << "\n";
+
+    cout << "\nComparatie c2 == c3: ";
+    if (c2 == c3)
+        cout << "Egali\n";
+    else
+        cout << "Diferiti\n";
+
+
+    cout << "\nComparatie varsta (c2 < c3): ";
+    if (c2 < c3)
+        cout << "c2 este mai tanar\n";
+    else
+        cout << "c2 NU este mai tanar\n";
+
+    cout << "\nAfisare cu operator:\n";
+    cout << c1 << "\n" << c2 << "\n" << c3 << "\n";
 
     c1.setRasa("Bulldog");
     c1.setGreutate(14.7);
