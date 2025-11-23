@@ -189,6 +189,39 @@ public:
     }
 
     friend void comparaCainePisica(const Caine& c, const Pisica& p);
+
+    Pisica& operator=(const Pisica& other) {
+        if (this != &other) {
+            nume = other.nume;
+            culoare = other.culoare;
+            esteSterilizata = other.esteSterilizata;
+
+            delete[] sunet;
+            sunet = new char[strlen(other.sunet) + 1];
+            strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+        }
+        return *this;
+    }
+
+    bool operator==(const Pisica& other) const {
+        return nume == other.nume &&
+            culoare == other.culoare &&
+            esteSterilizata == other.esteSterilizata &&
+            strcmp(sunet, other.sunet) == 0;
+    }
+
+    bool operator<(const Pisica& other) const {
+        return nume < other.nume;
+    }
+
+    friend ostream& operator<<(ostream& out, const Pisica& p) {
+        out << "Pisica (" << p.nume << "), culoare: "
+            << p.culoare << ", "
+            << (p.esteSterilizata ? "sterilizata" : "nesterilizata")
+            << ", sunet: " << p.sunet;
+        return out;
+    }
+
 };
 int Pisica::nrPisici = 0;
 
@@ -365,6 +398,28 @@ int main() {
     seteazaSunetPapagal(pa1);
     cout << "Sunet papagal nou: ";
     pa1.canta();
+
+    Pisica p5("Mira", "alba", true);
+    Pisica p6("Leo", "portocalie", false);
+
+    cout << p5 << endl;
+
+    if (p5 == p6) {
+        cout << "Egale";
+    }
+    else {
+        cout << "Diferite";
+    }
+
+    cout << endl;
+
+    if (p5 < p6) {
+        cout << "Mira vine inainte de Leo";
+    }
+    else {
+        cout << "Mira vine dupa Leo";
+    }
+
 
     return 0;
 }
