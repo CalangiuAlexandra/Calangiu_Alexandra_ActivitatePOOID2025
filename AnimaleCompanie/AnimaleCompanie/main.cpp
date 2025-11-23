@@ -298,6 +298,39 @@ public:
     }
 
     friend void seteazaSunetPapagal(Papagal& pa);
+
+    Papagal& operator=(const Papagal& other) {
+        if (this != &other) {
+            specie = other.specie;
+            culoare = other.culoare;
+            vorbeste = other.vorbeste;
+
+            delete[] sunet;
+            sunet = new char[strlen(other.sunet) + 1];
+            strcpy_s(sunet, strlen(other.sunet) + 1, other.sunet);
+        }
+        return *this;
+    }
+
+    bool operator==(const Papagal& other) const {
+        return specie == other.specie &&
+            culoare == other.culoare &&
+            vorbeste == other.vorbeste &&
+            strcmp(sunet, other.sunet) == 0;
+    }
+
+    bool operator<(const Papagal& other) const {
+        return specie < other.specie;
+    }
+
+    friend ostream& operator<<(ostream& out, const Papagal& p) {
+        out << "Papagal (" << p.specie << "), culoare: "
+            << p.culoare << ", "
+            << (p.vorbeste ? "vorbeste" : "nu vorbeste")
+            << ", sunet: " << p.sunet;
+        return out;
+    }
+
 };
 int Papagal::nrPapagali = 0;
 
@@ -419,6 +452,28 @@ int main() {
     else {
         cout << "Mira vine dupa Leo";
     }
+
+    cout << endl << endl;;
+
+    Papagal paA("Ara", "albastru", true);
+    Papagal paB("Cacadu", "alb", false);
+
+    cout << paA << endl;
+
+    if (paA == paB) {
+        cout << "Egali\n" << endl;
+    }
+    else {
+        cout << "Diferiti\n" << endl;
+    }
+
+    if (paA < paB) {
+        cout << "Ara vine inainte de Cacadu\n" << endl;
+    }
+    else {
+        cout << "Ara vine dupa Cacadu\n" << endl;
+    }
+
 
 
     return 0;
