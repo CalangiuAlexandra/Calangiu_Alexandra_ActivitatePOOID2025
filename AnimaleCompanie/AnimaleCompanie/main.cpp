@@ -543,7 +543,6 @@ int main() {
 
     cout << "\nIntroduceti numarul de papagali: ";
     cin >> n;
-    cin.ignore();
 
     Papagal* vPapagali = new Papagal[n];
 
@@ -575,6 +574,59 @@ int main() {
     delete[] vCaini;
     delete[] vPisici;
     delete[] vPapagali;
+
+    // Matrice pisici
+    int linii, coloane;
+
+    cout << "\nIntroduceti numarul de linii ale matricei de pisici: ";
+    cin >> linii;
+    cout << "Introduceti numarul de coloane ale matricei de pisici: ";
+    cin >> coloane;
+
+    Pisica** matricePisici = new Pisica * [linii];
+    for (int i = 0; i < linii; i++) {
+        matricePisici[i] = new Pisica[coloane];
+    }
+
+    cout << "\n=== CITIRE MATRICE PISICI ===\n";
+
+    for (int i = 0; i < linii; i++) {
+        for (int j = 0; j < coloane; j++) {
+
+            string nume, culoare;
+            bool ster;
+
+            cout << "\nPisica [" << i << "][" << j << "]\n";
+
+            cout << "Nume: ";
+            getline(cin, nume);
+
+            cout << "Culoare: ";
+            getline(cin, culoare);
+
+            cout << "Este sterilizata? (1=da, 0=nu): ";
+            cin >> ster;
+            cin.ignore();
+
+            matricePisici[i][j].setNume(nume);
+            matricePisici[i][j].setCuloare(culoare);
+            matricePisici[i][j].setEsteSterilizata(ster);
+        }
+    }
+
+    cout << "\n=== AFISARE MATRICE PISICI ===\n";
+
+    for (int i = 0; i < linii; i++) {
+        for (int j = 0; j < coloane; j++) {
+            cout << matricePisici[i][j] << "   ";
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < linii; i++) {
+        delete[] matricePisici[i];
+    }
+    delete[] matricePisici;
 
     return 0;
 }
