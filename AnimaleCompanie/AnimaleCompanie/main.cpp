@@ -474,7 +474,107 @@ int main() {
         cout << "Ara vine dupa Cacadu\n" << endl;
     }
 
+    // Vectori Obiecte
+    int n;
 
+    cout << "\nIntroduceti numarul de caini: ";
+    cin >> n;
+    cin.ignore();
+
+    Caine* vCaini = new Caine[n];
+
+    for (int i = 0; i < n; i++) {
+        string rasa;
+        int varsta;
+        double greutate;
+
+        cout << "\nCaine " << i + 1 << ":\n";
+        cout << "Rasa: ";
+        getline(cin, rasa);
+
+        cout << "Varsta: ";
+        cin >> varsta;
+
+        cout << "Greutate: ";
+        cin >> greutate;
+        cin.ignore();
+
+        vCaini[i].setRasa(rasa);
+        vCaini[i].setVarsta(varsta);
+        vCaini[i].setGreutate(greutate);
+    }
+
+    cout << "\n--- AFISARE VECTOR CAINI ---\n";
+    for (int i = 0; i < n; i++) {
+        cout << vCaini[i] << endl;
+    }
+
+
+    cout << "\nIntroduceti numarul de pisici: ";
+    cin >> n;
+    cin.ignore();
+
+    Pisica* vPisici = new Pisica[n];
+
+    for (int i = 0; i < n; i++) {
+        string nume, culoare;
+        bool ster;
+
+        cout << "\nPisica " << i + 1 << ":\n";
+        cout << "Nume: ";
+        getline(cin, nume);
+
+        cout << "Culoare: ";
+        getline(cin, culoare);
+
+        cout << "Este sterilizata? (1=da, 0=nu): ";
+        cin >> ster;
+        cin.ignore();
+
+        vPisici[i].setNume(nume);
+        vPisici[i].setCuloare(culoare);
+        vPisici[i].setEsteSterilizata(ster);
+    }
+
+    cout << "\n--- AFISARE VECTOR PISICI ---\n";
+    for (int i = 0; i < n; i++) {
+        cout << vPisici[i] << endl;
+    }
+
+    cout << "\nIntroduceti numarul de papagali: ";
+    cin >> n;
+    cin.ignore();
+
+    Papagal* vPapagali = new Papagal[n];
+
+    for (int i = 0; i < n; i++) {
+        string specie, culoare;
+        bool vorbeste;
+
+        cout << "\nPapagal " << i + 1 << ":\n";
+        cout << "Specie: ";
+        getline(cin, specie);
+
+        cout << "Culoare: ";
+        getline(cin, culoare);
+
+        cout << "Vorbeste? (1=da, 0=nu): ";
+        cin >> vorbeste;
+        cin.ignore();
+
+        vPapagali[i].setSpecie(specie);
+        vPapagali[i].setCuloare(culoare);
+        vPapagali[i].setVorbeste(vorbeste);
+    }
+
+    cout << "\n--- AFISARE VECTOR PAPAGALI ---\n";
+    for (int i = 0; i < n; i++) {
+        cout << vPapagali[i] << endl;
+    }
+
+    delete[] vCaini;
+    delete[] vPisici;
+    delete[] vPapagali;
 
     return 0;
 }
