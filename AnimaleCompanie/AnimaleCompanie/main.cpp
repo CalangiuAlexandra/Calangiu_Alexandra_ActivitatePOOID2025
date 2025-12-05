@@ -363,8 +363,9 @@ private:
 public:
     Adapost() : nume("Necunoscut"), capacitate(0), nrPisici(0), pisici(nullptr) {}
 
-    Adapost(string nume, int capacitate) : nume(nume), capacitate(capacitate) {
-        nrPisici = 0;
+    Adapost(string nume, int capacitate)
+        : nume(nume), capacitate(capacitate), nrPisici(0)
+    {
         pisici = new Pisica[capacitate];
     }
 
@@ -399,11 +400,68 @@ public:
         }
     }
 
+    void afiseaza() const {
+        cout << "Adapostul \"" << nume << "\" are " << nrPisici
+            << " pisici (capacitate " << capacitate << "):\n";
+        for (int i = 0; i < nrPisici; i++)
+            cout << "   - " << pisici[i] << "\n";
+    }
+
+    bool estePlin() const {
+        return nrPisici == capacitate;
+    }
+
+    bool esteGol() const {
+        return nrPisici == 0;
+    }
+
+    string getNume() const { return nume; }
+    int getCapacitate() const { return capacitate; }
+    int getNrPisici() const { return nrPisici; }
+    Pisica* getPisici() const { return pisici; }
+
+    void setNume(string n) { nume = n; }
+
+    void setCapacitate(int c) {
+        if (c < nrPisici) {
+            cout << "Noua capacitate este prea mica!\n";
+            return;
+        }
+        capacitate = c;
+
+        Pisica* nou = new Pisica[capacitate];
+        for (int i = 0; i < nrPisici; i++)
+            nou[i] = pisici[i];
+
+        delete[] pisici;
+        pisici = nou;
+    }
+
+    void setNrPisici(int nr) {
+        if (nr <= capacitate)
+            nrPisici = nr;
+    }
+
+    Adapost& operator+=(const Pisica& p) {
+        adaugaPisica(p);
+        return *this;
+    }
+
+    Pisica& operator[](int index) {
+        if (index < 0 || index >= nrPisici) {
+            cout << "Index invalid! Return prima pisica.\n";
+            return pisici[0];
+        }
+        return pisici[index];
+    }
+
+    bool operator==(const Adapost& other) const {
+        return nume == other.nume;
+    }
+
     friend ostream& operator<<(ostream& out, const Adapost& a) {
-        out << "Adapost \"" << a.nume << "\" ("
-            << a.nrPisici << "/" << a.capacitate << " pisici):\n";
-        for (int i = 0; i < a.nrPisici; i++)
-            out << "   - " << a.pisici[i] << "\n";
+        out << "Adapost \"" << a.nume
+            << "\" (" << a.nrPisici << "/" << a.capacitate << " pisici)";
         return out;
     }
 
@@ -411,6 +469,7 @@ public:
         delete[] pisici;
     }
 };
+
 
 
 
@@ -690,12 +749,21 @@ int main() {
 
     cout << "\n\n=== TESTARE CLASA ADAPOST ===\n";
 
-    Adapost a1("CasaNoua", 3);
+    Adapost a("Casa Animalelor", 3);
 
-    a1.adaugaPisica(Pisica("Pabo", "alb", true));
-    a1.adaugaPisica(Pisica("Gilberta", "gri", false));
+    a += Pisica("Mura", "alb", true);
+    a += Pisica("Tom", "gri", false);
 
-    cout << a1 << endl;
+    cout << a << endl;
+
+    cout << "Pisica 1: " << a[0] << endl;
+
+    if (a.estePlin()) {
+        cout << "Adapost plin!\n";
+    }
+    else {
+        cout << "Mai este loc!\n";
+    }
 
     return 0;
 }
