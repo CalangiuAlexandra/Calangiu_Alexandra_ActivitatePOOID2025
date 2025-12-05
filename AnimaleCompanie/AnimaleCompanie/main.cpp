@@ -353,6 +353,65 @@ void seteazaSunetPapagal(Papagal& pa) {
     }
 }
 
+class Adapost {
+private:
+    string nume;
+    int capacitate;
+    int nrPisici;
+    Pisica* pisici;
+
+public:
+    Adapost() : nume("Necunoscut"), capacitate(0), nrPisici(0), pisici(nullptr) {}
+
+    Adapost(string nume, int capacitate) : nume(nume), capacitate(capacitate) {
+        nrPisici = 0;
+        pisici = new Pisica[capacitate];
+    }
+
+    Adapost(const Adapost& other)
+        : nume(other.nume), capacitate(other.capacitate), nrPisici(other.nrPisici)
+    {
+        pisici = new Pisica[capacitate];
+        for (int i = 0; i < nrPisici; i++)
+            pisici[i] = other.pisici[i];
+    }
+
+    Adapost& operator=(const Adapost& other) {
+        if (this != &other) {
+            nume = other.nume;
+            capacitate = other.capacitate;
+            nrPisici = other.nrPisici;
+
+            delete[] pisici;
+            pisici = new Pisica[capacitate];
+            for (int i = 0; i < nrPisici; i++)
+                pisici[i] = other.pisici[i];
+        }
+        return *this;
+    }
+
+    void adaugaPisica(const Pisica& p) {
+        if (nrPisici < capacitate) {
+            pisici[nrPisici++] = p;
+        }
+        else {
+            cout << "Adapostul este plin!\n";
+        }
+    }
+
+    friend ostream& operator<<(ostream& out, const Adapost& a) {
+        out << "Adapost \"" << a.nume << "\" ("
+            << a.nrPisici << "/" << a.capacitate << " pisici):\n";
+        for (int i = 0; i < a.nrPisici; i++)
+            out << "   - " << a.pisici[i] << "\n";
+        return out;
+    }
+
+    ~Adapost() {
+        delete[] pisici;
+    }
+};
+
 
 
 int main() {
@@ -627,6 +686,16 @@ int main() {
         delete[] matricePisici[i];
     }
     delete[] matricePisici;
+
+
+    cout << "\n\n=== TESTARE CLASA ADAPOST ===\n";
+
+    Adapost a1("CasaNoua", 3);
+
+    a1.adaugaPisica(Pisica("Pabo", "alb", true));
+    a1.adaugaPisica(Pisica("Gilberta", "gri", false));
+
+    cout << a1 << endl;
 
     return 0;
 }
