@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <string>
 #include <cstring>
+#include <fstream>
+
 using namespace std;
 
 
@@ -72,6 +74,59 @@ public:
             << " kg, sunet: " << c.sunet;
         return out;
     }
+
+    void scrieInFisierText(ofstream& out) const {
+        out << rasa << "\n" << varsta << "\n" << greutate << "\n" << sunet << "\n";
+    }
+
+    void citesteDinFisierText(ifstream& in) {
+        getline(in, rasa);
+        in >> varsta;
+        in >> greutate;
+        in.ignore();
+
+        char buf[100];
+        in.getline(buf, 100);
+
+        delete[] sunet;
+        sunet = new char[strlen(buf) + 1];
+        strcpy_s(sunet, strlen(buf) + 1, buf);
+    }
+
+    void scrieInFisierBinar(ofstream& out) const {
+        size_t len;
+
+        len = rasa.size();
+        out.write((char*)&len, sizeof(len));
+        out.write(rasa.c_str(), len);
+
+        out.write((char*)&varsta, sizeof(varsta));
+        out.write((char*)&greutate, sizeof(greutate));
+
+        len = strlen(sunet);
+        out.write((char*)&len, sizeof(len));
+        out.write(sunet, len);
+    }
+
+    void citesteDinFisierBinar(ifstream& in) {
+        size_t len;
+
+        in.read((char*)&len, sizeof(len));
+        char* temp = new char[len + 1];
+        in.read(temp, len); temp[len] = '\0';
+        rasa = temp;
+        delete[] temp;
+
+        in.read((char*)&varsta, sizeof(varsta));
+        in.read((char*)&greutate, sizeof(greutate));
+
+        in.read((char*)&len, sizeof(len));
+        delete[] sunet;
+        sunet = new char[len + 1];
+        in.read(sunet, len);
+        sunet[len] = '\0';
+    }
+
 
     // Getteri, setteri, alte metode
     string getRasa() const { return rasa; }
@@ -222,6 +277,68 @@ public:
         return out;
     }
 
+    void scrieInFisierText(ofstream& out) const {
+        out << nume << "\n" << culoare << "\n"
+            << esteSterilizata << "\n" << sunet << "\n";
+    }
+
+    void citesteDinFisierText(ifstream& in) {
+        getline(in, nume);
+        getline(in, culoare);
+        in >> esteSterilizata;
+        in.ignore();
+
+        char buf[100];
+        in.getline(buf, 100);
+
+        delete[] sunet;
+        sunet = new char[strlen(buf) + 1];
+        strcpy_s(sunet, strlen(buf) + 1, buf);
+    }
+
+    void scrieInFisierBinar(ofstream& out) const {
+        size_t len;
+
+        len = nume.size();
+        out.write((char*)&len, sizeof(len));
+        out.write(nume.c_str(), len);
+
+        len = culoare.size();
+        out.write((char*)&len, sizeof(len));
+        out.write(culoare.c_str(), len);
+
+        out.write((char*)&esteSterilizata, sizeof(esteSterilizata));
+
+        len = strlen(sunet);
+        out.write((char*)&len, sizeof(len));
+        out.write(sunet, len);
+    }
+
+    void citesteDinFisierBinar(ifstream& in) {
+        size_t len;
+
+        in.read((char*)&len, sizeof(len));
+        char* buf = new char[len + 1];
+        in.read(buf, len); buf[len] = '\0';
+        nume = buf;
+        delete[] buf;
+
+        in.read((char*)&len, sizeof(len));
+        buf = new char[len + 1];
+        in.read(buf, len); buf[len] = '\0';
+        culoare = buf;
+        delete[] buf;
+
+        in.read((char*)&esteSterilizata, sizeof(esteSterilizata));
+
+        in.read((char*)&len, sizeof(len));
+        delete[] sunet;
+        sunet = new char[len + 1];
+        in.read(sunet, len);
+        sunet[len] = '\0';
+    }
+
+
 };
 int Pisica::nrPisici = 0;
 
@@ -329,6 +446,67 @@ public:
             << (p.vorbeste ? "vorbeste" : "nu vorbeste")
             << ", sunet: " << p.sunet;
         return out;
+    }
+
+    void scrieInFisierText(ofstream& out) const {
+        out << specie << "\n" << culoare << "\n"
+            << vorbeste << "\n" << sunet << "\n";
+    }
+
+    void citesteDinFisierText(ifstream& in) {
+        getline(in, specie);
+        getline(in, culoare);
+        in >> vorbeste;
+        in.ignore();
+
+        char buf[100];
+        in.getline(buf, 100);
+
+        delete[] sunet;
+        sunet = new char[strlen(buf) + 1];
+        strcpy_s(sunet, strlen(buf) + 1, buf);
+    }
+
+    void scrieInFisierBinar(ofstream& out) const {
+        size_t len;
+
+        len = specie.size();
+        out.write((char*)&len, sizeof(len));
+        out.write(specie.c_str(), len);
+
+        len = culoare.size();
+        out.write((char*)&len, sizeof(len));
+        out.write(culoare.c_str(), len);
+
+        out.write((char*)&vorbeste, sizeof(vorbeste));
+
+        len = strlen(sunet);
+        out.write((char*)&len, sizeof(len));
+        out.write(sunet, len);
+    }
+
+    void citesteDinFisierBinar(ifstream& in) {
+        size_t len;
+
+        in.read((char*)&len, sizeof(len));
+        char* buf = new char[len + 1];
+        in.read(buf, len); buf[len] = '\0';
+        specie = buf;
+        delete[] buf;
+
+        in.read((char*)&len, sizeof(len));
+        buf = new char[len + 1];
+        in.read(buf, len); buf[len] = '\0';
+        culoare = buf;
+        delete[] buf;
+
+        in.read((char*)&vorbeste, sizeof(vorbeste));
+
+        in.read((char*)&len, sizeof(len));
+        delete[] sunet;
+        sunet = new char[len + 1];
+        in.read(sunet, len);
+        sunet[len] = '\0';
     }
 
 };
@@ -464,6 +642,72 @@ public:
             << "\" (" << a.nrPisici << "/" << a.capacitate << " pisici)";
         return out;
     }
+
+    void salveazaText(const string& numeFisier) const {
+        ofstream f(numeFisier);
+        f << nume << "\n" << capacitate << "\n" << nrPisici << "\n";
+
+        for (int i = 0; i < nrPisici; i++)
+            pisici[i].scrieInFisierText(f);
+
+        f.close();
+    }
+
+    void incarcaText(const string& numeFisier) {
+        ifstream f(numeFisier);
+        getline(f, nume);
+        f >> capacitate;
+        f >> nrPisici;
+        f.ignore();
+
+        delete[] pisici;
+        pisici = new Pisica[capacitate];
+
+        for (int i = 0; i < nrPisici; i++)
+            pisici[i].citesteDinFisierText(f);
+
+        f.close();
+    }
+
+    void salveazaBinar(const string& numeFisier) const {
+        ofstream f(numeFisier, ios::binary);
+
+        size_t len = nume.size();
+        f.write((char*)&len, sizeof(len));
+        f.write(nume.c_str(), len);
+
+        f.write((char*)&capacitate, sizeof(capacitate));
+        f.write((char*)&nrPisici, sizeof(nrPisici));
+
+        for (int i = 0; i < nrPisici; i++)
+            pisici[i].scrieInFisierBinar(f);
+
+        f.close();
+    }
+
+    void incarcaBinar(const string& numeFisier) {
+        ifstream f(numeFisier, ios::binary);
+
+        size_t len;
+        f.read((char*)&len, sizeof(len));
+
+        char* buf = new char[len + 1];
+        f.read(buf, len); buf[len] = '\0';
+        nume = buf;
+        delete[] buf;
+
+        f.read((char*)&capacitate, sizeof(capacitate));
+        f.read((char*)&nrPisici, sizeof(nrPisici));
+
+        delete[] pisici;
+        pisici = new Pisica[capacitate];
+
+        for (int i = 0; i < nrPisici; i++)
+            pisici[i].citesteDinFisierBinar(f);
+
+        f.close();
+    }
+
 
     ~Adapost() {
         delete[] pisici;
@@ -764,6 +1008,18 @@ int main() {
     else {
         cout << "Mai este loc!\n";
     }
+
+    a.salveazaText("adapost.txt");
+    a.salveazaBinar("adapost.dat");
+
+    Adapost b;
+    b.incarcaText("adapost.txt");
+    b.afiseaza();
+
+    Adapost c;
+    c.incarcaBinar("adapost.dat");
+    c.afiseaza();
+
 
     return 0;
 }
